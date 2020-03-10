@@ -9,6 +9,11 @@
 - name: Check if NVIDIA GPU driver is installed via modinfo
   command: modinfo nvidia
   register: modinfo_nvidia
+  changed_when:
+    - '"not found" in modinfo_nvidia.stderr'
+  failed_when:
+    - '"FATAL" in modinfo_nvidia.stderr'
+
 
 - name: Install NVIDIA GPU kernel module via bin, usually requires single time reboot
   block:
